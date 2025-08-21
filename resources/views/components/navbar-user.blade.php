@@ -1,10 +1,32 @@
 @php
+    // Current locale and segments
     $locale = app()->getLocale();
-    $localePrefix = $locale === 'hi' ? 'hi' : 'en';
+
+    $localePrefix = $locale === 'hi' ? 'hi' : 'en'; // 'en' or 'hi'
+    $firstSegment = request()->segment(1);
     $currentSlug = request()->segment(2) ?? request()->segment(1);
     $pageTitle = $page->translated_title ?? $page->title ?? 'Home';
-    $currentLang = request()->segment(1) ?? 'en';
+    $currentLang = $firstSegment ?? 'en';
+
+    // Determine target language and URL for language switcher
+    if ($firstSegment === 'hi') {
+        // Currently in Hindi, switch to English
+        $switchUrl = '/' . collect(request()->segments())->slice(1)->implode('/');
+        $switchText = 'English';
+    } else {
+        // Currently in English, switch to Hindi
+        $switchUrl = '/hi/' . collect(request()->segments())->implode('/');
+        $switchText = 'हिन्दी';
+    }
+
+    // Fix for root URL
+    if ($switchUrl === '') {
+        $switchUrl = '/';
+    }
 @endphp
+
+
+
 <div class="topbar py-1">
         <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
             <div class="d-flex align-items-center gap-3">
@@ -14,7 +36,9 @@
             </div>
             <div class="d-flex gap-3">
                 <a href="#skip" class="">Skip to content</a>
-                <a href="#" class="">हिन्दी / English</a>
+                <a href="{{ $switchUrl }}" class="font-medium hover:underline">
+     {{ $locale === 'hi' ? 'English' : 'हिन्दी' }}
+</a>
                 <a href="#access" class=""><i class="bi bi-universal-access me-1"></i>Accessibility</a>
             </div>
         </div>
