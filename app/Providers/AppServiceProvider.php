@@ -4,7 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\{Blade, View, Cache, App};
-use App\Models\{NavbarItem, Setting};
+use Illuminate\Pagination\Paginator;
+use App\Models\{NavbarItem, Setting, Leader, News}; // ✅ Add News model
 use App\Helpers\TranslationHelper;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,14 +17,14 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // ✅ Tailwind pagination styling
+        Paginator::useTailwind();
+
         $this->setApplicationLocale();
         $this->registerBladeDirectives();
         $this->registerViewComposers();
     }
 
-    /**
-     * Set application locale based on session
-     */
     protected function setApplicationLocale(): void
     {
         $locale = session('locale', config('app.locale', 'en'));
@@ -31,9 +32,6 @@ class AppServiceProvider extends ServiceProvider
         View::share('locale', $locale);
     }
 
-    /**
-     * Register custom Blade directives
-     */
     protected function registerBladeDirectives(): void
     {
         Blade::if('canview', function ($routeName) {
@@ -41,33 +39,26 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Register view composers for shared data
-     */
     protected function registerViewComposers(): void
     {
         View::composer('*', function ($view) {
             $this->shareSettings($view);
             $this->shareNavbarItems($view);
+            $this->shareAllLeaders($view); 
+            $this->shareAllNews($view);   // ✅ Now sharing all news
         });
     }
 
-    /**
-     * Share all settings with views
-     */
     protected function shareSettings($view): void
     {
         $cacheKey = 'all_settings';
-        $settings = Cache::remember($cacheKey, now()->addHours(1), function () {
+        $allsettings = Cache::remember($cacheKey, now()->addHours(1), function () {
             return Setting::all()->pluck('value', 'key')->toArray();
         });
 
-        $view->with('settings', $settings);
+        $view->with('allsettings', $allsettings);
     }
 
-    /**
-     * Share navbar items with views
-     */
     protected function shareNavbarItems($view): void
     {
         $locale = App::getLocale();
@@ -87,9 +78,27 @@ class AppServiceProvider extends ServiceProvider
         $view->with('navbarItems', $items);
     }
 
-    /**
-     * Process a single navbar item (helper)
-     */
+    protected function shareAllLeaders($view): void
+    {
+        $cacheKey = 'all_leaders';
+        $allLeaders = Cache::remember($cacheKey, now()->addMinutes(30), function () {
+            return Leader::orderBy('id', 'asc')->get();
+        });
+
+        $view->with('allLeaders', $allLeaders);
+    }
+
+    // ✅ NEW: Share all news globally
+    protected function shareAllNews($view): void
+    {
+        $cacheKey = 'all_news';
+        $allNews = Cache::remember($cacheKey, now()->addMinutes(30), function () {
+            return News::orderBy('created_at', 'desc')->get();
+        });
+
+        $view->with('allNews', $allNews);
+    }
+
     protected function processNavbarItem($item, string $locale): void
     {
         if ($locale === 'hi' && !empty($item->title_hi)) {
@@ -98,7 +107,6 @@ class AppServiceProvider extends ServiceProvider
             $item->translated_title = TranslationHelper::translate($item->title, $locale);
         }
 
-        // Process children recursively
         $item->children->each(function ($child) use ($locale) {
             if ($locale === 'hi' && !empty($child->title_hi)) {
                 $child->translated_title = $child->title_hi;

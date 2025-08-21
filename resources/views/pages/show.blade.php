@@ -27,9 +27,9 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ setting('site.description') }}">
+    <meta name="description" content="{{ allsettings('site.description') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ setting('site.title') }} - {{ $pageTitle }}</title>
+    <title>{{ allsettings('site.title') }} - {{ $pageTitle }}</title>
     
 
     <style>

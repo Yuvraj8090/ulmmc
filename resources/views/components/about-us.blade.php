@@ -43,10 +43,13 @@
                         <h5><i class="bi bi-megaphone-fill"></i> Announcements</h5>
                         <div class="announcement-list">
                             <ul>
-                                <li>📢 Tender Notice for new infrastructure projects released.</li>
-                                <li>📰 National Landslide Mitigation Conference scheduled in September.</li>
-                                <li>🚨 New guidelines for landslide-prone areas issued by ULMCC.</li>
-                                <li>🌐 Research collaboration initiated with IIT Roorkee.</li>
+                                @foreach($allNews as $news)
+                                <li>
+                🚨 <a href="{{ route('news.show', $news->slug) }}" class="text-decoration-none text-black">
+                    {{ $news->title }}
+                </a></li>
+            @endforeach
+                               
                             </ul>
                         </div>
                     </div>

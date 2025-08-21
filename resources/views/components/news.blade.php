@@ -2,8 +2,11 @@
     <div class="news-label">Latest News</div>
     <div class="news-marquee">
         <span>
-            🚨 Tender notice released for infrastructure projects • 📰 Upcoming Uttarakhand Development Conference •
-            📢 ULMWC Finance Report Published • 🌐 New initiatives for sustainable growth announced
+            @foreach($allNews as $news)
+                🚨 <a href="{{ route('news.show', $news->slug) }}" class="text-decoration-none text-white">
+                    {{ $news->title }}
+                </a> •
+            @endforeach
         </span>
     </div>
 </div>
