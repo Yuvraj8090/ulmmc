@@ -1,0 +1,589 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+    :root{
+      --brand:#0a5c75;          /* primary */
+      --brand-2:#0b6a86;        /* primary deeper */
+      --accent:#f7b500;         /* accent */
+      --ink:#0f2b35;            /* text dark */
+      --bg:#f4f7fb;            /* page bg */
+      --card:#ffffff;          /* card bg */
+      --muted:#6b8790;         /* muted text */
+      --success:#1e8e3e;
+    }
+    html,body{font-family: "Inter",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;color:var(--ink);overflow-x: hidden;background:var(--bg)}
+h1,h2,h3,h4,h5,h6{
+  font-family: 'Jost',sans-serif;
+}
+    /* Top strip */
+    .topbar{background:linear-gradient(90deg,var(--brand),#0f7ea2); color:#e8f7ff; font-size:.9rem}
+    .topbar a{color:#e8f7ff; text-decoration:none}
+    .topbar .badge{background:rgba(255,255,255,.15);}
+
+    /* Header brand line */
+    .brandbar{background:#083545; color:#eaffff}
+    .brandbar .brand-text small{opacity:.85}
+    .logo-img{height:54px}
+
+    /* Navbar */
+    .navbar{backdrop-filter:saturate(140%) blur(6px);}
+    .navbar .nav-link{font-weight:600}
+    .navbar .nav-link.active{color:var(--accent)!important}
+    .btn-sign{border:1px solid rgba(255,255,255,.4); color:#fff}
+    .btn-sign:hover{background:#fff;color:var(--brand)}
+/* Navbar Dropdown Hover */
+.navbar .dropdown-menu {
+  display: none;         /* default hidden */
+  margin-top: 0;
+  z-index: 9999;         /* z-index increased */
+}
+
+.navbar .dropdown:hover .dropdown-menu {
+  display: block;        /* show on hover */
+}
+    /* Hero */
+    .hero{
+      position:relative; min-height:72vh; display:flex; align-items:center; isolation:isolate;
+      background: radial-gradient(ellipse at center, rgba(7,43,57,.45) 0%, rgba(7,43,57,.65) 55%, rgba(7,43,57,.8) 100%), url('../img/honper-bgi.jpg');
+      background-size:cover; background-position:center; color:#eaffff;
+    }
+    .hero h1{font-weight:800; letter-spacing:.2px}
+    .hero p.lead{color:#d8f3ff}
+
+    /* Weather card */
+    .weather-card{background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18); box-shadow:0 10px 30px rgba(0,0,0,.25); color:#003b48}
+    .weather-card .card-body{backdrop-filter: blur(8px)}
+
+    /* Section helpers */
+    .section-title{font-weight:800}
+    .section-sub{color:var(--muted)}
+    .shadow-soft{box-shadow:0 8px 24px rgba(16,41,54,.08)}
+
+    /* Feature icons */
+    .feature-icon{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:#e7f4f9;color:var(--brand)}
+
+    /* Footer */
+    footer{background:#072a36;color:#bfe9f7}
+    footer a{color:#d8f3ff;text-decoration:none}
+    footer a:hover{text-decoration:underline}
+
+    /* Back-to-top */
+    .back-to-top{position:fixed;right:18px;bottom:18px;z-index:1030;display:none}
+
+    /* Responsive tweaks */
+    @media (max-width: 991.98px){
+      .hero{min-height:70vh}
+    }
+    /* Parent dropdown ke liye */
+.navbar-nav .dropdown-menu {
+  display: none;       /* by default hidden */
+  position: absolute;  /* position absolute so that overlap kare */
+  top: 100%;           /* menu ke neeche dikhai de */
+  left: 0;
+  z-index: 9999;       /* sabse upar rahe */
+  margin-top: 0;       /* gap avoid kare */
+}
+
+/* Hover hone par dikhaye */
+.navbar-nav .dropdown:hover > .dropdown-menu {
+  display: block;
+}
+.navbar {
+  overflow: visible !important;
+}
+.footer-section {
+  background: linear-gradient(135deg, #0077b6, #0096c7);
+  padding: 50px 0;
+  font-size: 14px;
+}
+
+.footer-title {
+  font-size: 16px;
+  margin-bottom: 15px;
+  position: relative;
+  font-weight: 600;
+}
+
+.footer-title::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: #fff;
+  margin-top: 5px;
+}
+
+.footer-info li,
+.footer-links li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.footer-info li i {
+  margin-right: 8px;
+  color: #ffd166;
+}
+
+.footer-links li a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-links li a:hover {
+  color: #ffd166;
+  padding-left: 5px;
+}
+
+.social-icons a {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #fff;
+  background: rgba(255,255,255,0.1);
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  background: #ffd166;
+  color: #000;
+}
+
+.footer-divider {
+  border-color: rgba(255,255,255,0.2);
+  margin: 20px 0;
+}
+
+.footer-section a {
+  color: #ffd166;
+  text-decoration: none;
+}
+.footer-section a:hover {
+  text-decoration: underline;
+}
+  .footer-link {
+    color: #ddd;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .footer-link:hover {
+    color: #ffcd3c;
+    padding-left: 4px;
+  }
+  .social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 18px;
+    transition: all 0.4s ease;
+  }
+  .social-icon:hover {
+    background: #fff;
+    color: #03045e;
+    transform: translateY(-3px);
+  }
+  .social-icon .bi-facebook:hover { color:#1877f2; }
+  .social-icon .bi-twitter:hover { color:#1da1f2; }
+  .social-icon .bi-instagram:hover { color:#e4405f; }
+  .social-icon .bi-youtube:hover { color:#ff0000; }
+  /* Hero full screen */
+.hero {
+  /* height: 100vh; */
+  min-height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background image */
+.hero-bg {
+  background: url('your-banner.jpg') center center/cover no-repeat;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+}
+
+/* Dark overlay */
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2;
+}
+
+/* Stylish Font */
+.stylish-font {
+  font-family: 'Poppins', sans-serif; /* ya phir Google Fonts se koi stylish font import karo */
+  letter-spacing: 1px;
+  line-height: 1.3;
+}
+
+/* Content above overlay */
+.hero .container {
+  position: relative;
+  z-index: 3;
+}
+.navbar .dropdown-menu {
+  z-index: 1055; /* Bootstrap modal se thoda kam, lekin hero se upar */
+  position: absolute; /* ensure it floats properly */
+
+.hero,
+.hero-overlay,
+.hero-bg {
+  position: relative;
+  z-index: 1; /* sirf background/overlay ke liye */
+}
+
+.navbar {
+  position: relative;
+  z-index: 1020; /* hero se upar */
+}
+}
+/* Hero section overflow issue fix */
+.hero {
+  position: relative;
+  z-index: 1;
+  overflow: visible !important; /* dropdown cut hone se bachega */
+}
+
+/* Navbar ko hero ke upar lana */
+.navbar {
+  position: relative;
+  z-index: 1030; /* Bootstrap ke modal ke neeche but overlay se upar */
+}
+
+/* Dropdown menu visible */
+.navbar .dropdown-menu {
+  z-index: 1050;
+}
+.offcanvas{
+    height: 100vh!important;
+}
+.weather-card {
+  background: linear-gradient(135deg, #0c7797, #32b3d9);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.weather-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+}
+.animate-icon {
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+}
+.fade-in:nth-child(1) { animation-delay: 0.2s; }
+.fade-in:nth-child(2) { animation-delay: 0.4s; }
+.fade-in:nth-child(3) { animation-delay: 0.6s; }
+.fade-in:nth-child(4) { animation-delay: 0.8s; }
+.fade-in:nth-child(5) { animation-delay: 1s; }
+.fade-in:nth-child(6) { animation-delay: 1.2s; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+    /* 🔹 News Bar */
+    .news-bar {
+      background: #ffc107;
+      color: #000;
+      font-weight: 600;
+      padding: 8px 15px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .news-label {
+      background: #000;
+      color: #fff;
+      padding: 5px 15px;
+      border-radius: 5px;
+      margin-right: 10px;
+      white-space: nowrap;
+    }
+    .news-marquee {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+    }
+    .news-marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 18s linear infinite;
+    }
+    .news-marquee span:hover {
+      animation-play-state: paused;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* 🔹 Leadership Cards */
+    .leader-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      padding: 25px 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%; /* ✅ Make all cards equal */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .leader-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .leader-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #0d6efd;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+    .leader-card:hover .leader-img {
+      transform: scale(1.05);
+    }
+    .leader-name {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #000000;
+      margin-bottom: 5px;
+      flex-grow: 0;
+    }
+    .leader-role {
+      font-size: 0.95rem;
+      color: #555;
+      margin-top: auto; /* ✅ Keeps role aligned properly */
+    }
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 50px 0 40px;
+      color: #333;
+      position: relative;
+    }
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 70px;
+      height: 3px;
+      background: #0d6efd;
+      margin: 10px auto 0;
+      border-radius: 5px;
+    }
+    /* Section Styling */
+    .about-section {
+      padding: 80px 0;
+      position: relative;
+      background: #fff;
+    }
+
+    .about-section h2 {
+      font-size: 1.2rem;
+      color: #ff9800;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .about-section h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .about-section h4 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ff9800;
+      margin-bottom: 20px;
+    }
+
+    .about-section p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #555;
+    }
+
+    /* Announcement Box */
+    .announcement-box {
+      background: #063970;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      color: #fff;
+    }
+
+    .announcement-box h5 {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .announcement-box h5 i {
+      font-size: 1.3rem;
+    }
+
+    .announcement-list {
+      background: #fff;
+      border-radius: 6px;
+      padding: 15px;
+      color: #333;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .announcement-list ul {
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    .announcement-list li {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+     /* 🔹 Section Titles */
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 50px 0 40px;
+      color: #333;
+      position: relative;
+    }
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 90px;
+      height: 3px;
+      background: #0d6efd;
+      margin: 10px auto 0;
+      border-radius: 5px;
+    }
+
+    /* 🔹 Cards */
+    .info-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      padding: 25px;
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+    .info-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    }
+    .info-card h5 {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #063970;
+    }
+    .info-card h5 i {
+      font-size: 1.3rem;
+      color: #0d6efd;
+    }
+    .info-card ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+    .info-card ul li {
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    /* 🔹 Stats Section */
+    .stats-section {
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+      color: #fff;
+      padding: 60px 0;
+      margin-top: 60px;
+    }
+    .stat-box {
+      text-align: center;
+      padding: 20px;
+    }
+    .stat-box i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #ffdf5d;
+    }
+    .stat-box h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .stat-box p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+/* Accordion modern style */
+.accordion-button {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease;
+}
+.accordion-button:not(.collapsed) {
+  background: #eef4ff;
+}
+.accordion-body {
+  background: #fff;
+  border-left: 3px solid #007bff20;
+  border-radius: 0 0 10px 10px;
+  transition: all 0.3s ease;
+}
+
+/* Read More links */
+.readmore-link {
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.readmore-link:hover {
+  color: #0d6efd;
+}
+
+/* Useful links */
+.link-card {
+  text-decoration: none;
+  background: #fff;
+  transition: all 0.3s ease-in-out;
+  font-weight: 500;
+  color: #333;
+}
+.link-card:hover {
+  transform: translateY(-4px);
+  background: #f1f7ff;
+  color: #0d6efd;
+}
