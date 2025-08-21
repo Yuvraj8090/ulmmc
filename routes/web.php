@@ -11,7 +11,7 @@ use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\NewsController;
 
 // Show single news (English)
-Route::get('/news/{slug}', [NewsController::class, 'showNews'])->name('news.show');
+Route::get('/en/news/{slug}', [NewsController::class, 'showNews'])->name('news.show');
 
 // Show single news (Hindi)
 Route::get('/hi/news/{slug}', [NewsController::class, 'showNewsHi'])->name('news.show.hi');
