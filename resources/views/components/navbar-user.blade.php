@@ -114,7 +114,7 @@
             </div>
             <div class="offcanvas-body">
                 <div class="d-flex align-items-center gap-2">
-                    <a href="#" class="btn btn-outline-light btn-md btn-sign"><i class="bi bi-box-arrow-in-right me-1"></i>Sign in</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline-light btn-md btn-sign"><i class="bi bi-box-arrow-in-right me-1"></i>Sign in</a>
                 </div>
             </div>
         </div>
