@@ -13,10 +13,11 @@ class UserController extends Controller
      * Display a listing of users.
      */
     public function index()
-    {
-        $users = User::with('role')->get(); // paginate for better UI
-        return view('admin.users.index', compact('users'));
-    }
+{
+    $users = User::with('role')->orderBy('created_at', 'desc')->paginate(10);
+    return view('admin.users.index', compact('users'));
+}
+
 
     /**
      * Show the form for creating a new user.

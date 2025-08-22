@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tender;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -67,6 +68,37 @@ class TenderController extends Controller
     {
         return view('admin.tenders.edit', compact('tender'));
     }
+
+
+
+public function publicIndex()
+{
+    $now = Carbon::now();
+
+    $tenders = Tender::where('close_date', '>=', $now)
+                     ->orderBy('open_date', 'desc')
+                     ->get();
+
+    // Pass a variable to indicate language
+    $lang = 'en';
+
+    return view('tenders.index', compact('tenders', 'lang'));
+}
+
+public function publicIndexHI()
+{
+    $now = Carbon::now();
+
+    $tenders = Tender::where('close_date', '>=', $now)
+                     ->orderBy('open_date', 'desc')
+                     ->get();
+
+    $lang = 'hi';
+
+    return view('tenders.index', compact('tenders', 'lang'));
+}
+
+
 
     /**
      * Update the specified tender in storage.

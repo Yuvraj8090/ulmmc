@@ -74,7 +74,7 @@
 
         <!-- Dynamic Navbar Items -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2">
-            @foreach($navbarItems as $item)
+            @foreach($allNavbarItems as $item)
                  @php
             $itemTitle = $locale === 'hi' ? ($item['title_hi'] ?? $item['title']) : $item['title'];
             $itemUrl = url($localePrefix . '/' . $item['slug']);

@@ -9,10 +9,13 @@ class RoleController extends Controller
 {
     // Display all roles
     public function index()
-    {
-        $roles = Role::all();
-        return view('roles.index', compact('roles'));
-    }
+{
+    // Fetch 10 roles per page
+    $roles = Role::orderBy('created_at', 'desc')->paginate(10);
+    
+    return view('roles.index', compact('roles'));
+}
+
 
     // Show form to create a role
     public function create()

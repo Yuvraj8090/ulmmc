@@ -12,6 +12,8 @@ use App\Http\Controllers\NewsController;
 
 // Show single news (English)
 Route::get('/en/news/{slug}', [NewsController::class, 'showNews'])->name('news.show');
+Route::get('/en/tenders', [AdminTenderController::class, 'publicIndex'])->name('tenders.show');
+Route::get('/hi/tenders', [AdminTenderController::class, 'publicIndexHI'])->name('tenders.show.hi');
 
 // Show single news (Hindi)
 Route::get('/hi/news/{slug}', [NewsController::class, 'showNewsHi'])->name('news.show.hi');
@@ -39,12 +41,17 @@ Route::middleware([
     ->name('admin.clear.cache');
     
     // Dashboard route
-    Route::get('/dashboard', function () {
+    Route::get('/admin/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
     
     // Admin routes group
     Route::prefix('admin')->name('admin.')->group(function () {
+  Route::resource('media-files', App\Http\Controllers\Admin\MediaFileController::class);
+    Route::get('media-files/{mediaFile}/download', [App\Http\Controllers\Admin\MediaFileController::class, 'download'])
+         ->name('media-files.download');
+
+
             Route::resource('tenders', AdminTenderController::class);
     Route::get('tenders/{tender}/download', [AdminTenderController::class, 'download'])
         ->name('tenders.download');

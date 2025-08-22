@@ -60,23 +60,25 @@ class AppServiceProvider extends ServiceProvider
     }
 
     protected function shareNavbarItems($view): void
-    {
-        $locale = App::getLocale();
-        $cacheKey = "navbar_items_{$locale}";
+{
+    $locale = App::getLocale();
+    $cacheKey = "navbar_items_{$locale}";
 
-        $items = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($locale) {
-            return NavbarItem::with('children')
-                ->whereNull('parent_id')
-                ->where('is_active', true)
-                ->orderBy('order')
-                ->get()
-                ->each(function ($item) use ($locale) {
-                    $this->processNavbarItem($item, $locale);
-                });
-        });
+    $items = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($locale) {
+        return NavbarItem::with('children')
+            ->whereNull('parent_id')
+            ->where('is_active', true)
+            ->orderBy('order')
+            ->get()
+            ->each(function ($item) use ($locale) {
+                $this->processNavbarItem($item, $locale);
+            });
+    });
 
-        $view->with('navbarItems', $items);
-    }
+    // ✅ Change variable name here
+    $view->with('allNavbarItems', $items);
+}
+
 
     protected function shareAllLeaders($view): void
     {
