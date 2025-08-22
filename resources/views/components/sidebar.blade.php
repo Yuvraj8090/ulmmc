@@ -1,4 +1,4 @@
-<div class="px-4 py-6 bg-white dark:bg-gray-800 h-full flex flex-col justify-between">
+<div class="flex flex-col h-full bg-white dark:bg-gray-800 px-4 py-6 justify-between">
 
     <!-- Navigation Section -->
     <div>
@@ -6,23 +6,25 @@
             Navigation
         </p>
 
-        <nav class="space-y-1">
+        <nav class="space-y-2">
 
-            <!-- Success / Error Toasts -->
+            {{-- Success Toast --}}
             @if(session('success'))
-                <div class="mb-6 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 dark:bg-green-800 dark:border-green-600 dark:text-green-100 rounded-md flex items-center">
+                <div class="mb-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 dark:bg-green-800 dark:border-green-600 dark:text-green-100 rounded-md flex items-center">
                     <i class="fas fa-check-circle mr-2"></i>
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
 
+            {{-- Error Toast --}}
             @if($errors->any())
-                <div class="mb-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 dark:bg-red-800 dark:border-red-600 dark:text-red-100 rounded-md flex items-center">
+                <div class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 dark:bg-red-800 dark:border-red-600 dark:text-red-100 rounded-md flex items-center">
                     <i class="fas fa-exclamation-circle mr-2"></i>
                     <span>{{ $errors->first() }}</span>
                 </div>
             @endif
 
+            {{-- Navigation Links --}}
             @php
                 $links = [
                     ['route' => 'dashboard', 'icon' => 'fas fa-home', 'label' => 'Dashboard', 'pattern' => 'dashboard'],
@@ -40,18 +42,20 @@
 
             @foreach($links as $link)
                 <a href="{{ route($link['route']) }}"
-                   class="w-full group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors
-                   {{ request()->routeIs($link['pattern']) ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white' }}">
+                   class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors
+                   {{ request()->routeIs($link['pattern']) 
+                        ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white' 
+                        : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white' }}">
                     <i class="{{ $link['icon'] }} mr-3 text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300"></i>
                     {{ $link['label'] }}
                 </a>
             @endforeach
 
-            <!-- Clear Cache (form-based) -->
+            {{-- Clear Cache Button --}}
             <form method="POST" action="{{ route('admin.clear.cache') }}">
                 @csrf
                 <button type="submit"
-                        class="w-full text-left group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors 
+                        class="w-full text-left flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors 
                         hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                     <i class="fas fa-broom mr-3 text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300"></i>
                     Clear Cache
@@ -61,32 +65,37 @@
         </nav>
     </div>
 
-    <!-- Resources Section -->
-    <div class="mt-10">
-        <p class="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-3 ml-2">Resources</p>
-        <a href="#"
-           class="group flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-            <i class="fas fa-book mr-3 text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300"></i>
-            Documentation
-        </a>
-        <a href="#"
-           class="group flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-            <i class="fas fa-question-circle mr-3 text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300"></i>
-            Support
-        </a>
+    <!-- User Info Section -->
+    <div class="mt-6">
+        <div class="flex items-center p-3 border-t dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-md">
+            <img class="h-9 w-9 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+            <div class="ml-3">
+                <p class="text-sm font-medium text-gray-700 dark:text-gray-200">{{ Auth::user()->name }}</p>
+                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Administrator</p>
+            </div>
+        </div>
     </div>
 
 </div>
 
-<!-- Optional Floating Toast Script -->
+{{-- Floating Toast Script --}}
 @if(session('success'))
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', () => {
         const toast = document.createElement('div');
         toast.innerText = "{{ session('success') }}";
-        toast.className = "fixed bottom-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50";
+        toast.className = "fixed bottom-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in-out";
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 4000);
     });
 </script>
 @endif
+
+{{-- Optional Tailwind CSS Animation --}}
+<style>
+    @keyframes fade-in-out {
+        0%, 100% { opacity: 0; transform: translateY(20px); }
+        10%, 90% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-out { animation: fade-in-out 4s ease forwards; }
+</style>
