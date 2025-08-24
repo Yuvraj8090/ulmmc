@@ -18,7 +18,8 @@ class NavbarItem extends Model
         'is_active',
         'route',
         'url',
-        'icon'
+        'icon',
+         'is_footer', 
     ];
 
     public function parent(): BelongsTo

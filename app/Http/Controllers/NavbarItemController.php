@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\NavbarItem;
@@ -9,6 +10,9 @@ use Illuminate\Support\Str;
 
 class NavbarItemController extends Controller
 {
+    /**
+     * Display a listing of navbar items.
+     */
     public function index()
     {
         try {
@@ -16,9 +20,11 @@ class NavbarItemController extends Controller
                 ->whereNull('parent_id')
                 ->orderBy('order')
                 ->get();
+
             return view('admin.navbar.index', compact('navbarItems'));
         } catch (\Exception $e) {
             Log::error('NavbarItemController@index - Error: ' . $e->getMessage());
+
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'title' => 'Error',
@@ -27,6 +33,9 @@ class NavbarItemController extends Controller
         }
     }
 
+    /**
+     * Show the form for creating a new navbar item.
+     */
     public function create()
     {
         try {
@@ -34,6 +43,7 @@ class NavbarItemController extends Controller
             return view('admin.navbar.create', compact('parents'));
         } catch (\Exception $e) {
             Log::error('NavbarItemController@create - Error: ' . $e->getMessage());
+
             return redirect()->route('admin.navbar-items.index')->with('toast', [
                 'type' => 'error',
                 'title' => 'Error',
@@ -42,11 +52,15 @@ class NavbarItemController extends Controller
         }
     }
 
+    /**
+     * Store a newly created navbar item in storage.
+     */
     public function store(Request $request)
     {
         try {
             $validated = $this->validateRequest($request);
 
+            // Check parent dropdown constraint
             if ($validated['parent_id']) {
                 $parent = NavbarItem::find($validated['parent_id']);
                 if (!$parent || !$parent->is_dropdown) {
@@ -68,6 +82,7 @@ class NavbarItemController extends Controller
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errorMessages = collect($e->errors())->flatten()->implode('<br>');
+
             return redirect()->back()
                 ->withErrors($e->validator)
                 ->withInput()
@@ -79,6 +94,7 @@ class NavbarItemController extends Controller
                 ]);
         } catch (\Exception $e) {
             Log::error('NavbarItemController@store - Error: ' . $e->getMessage());
+
             return redirect()->back()
                 ->withInput()
                 ->with('toast', [
@@ -89,12 +105,16 @@ class NavbarItemController extends Controller
         }
     }
 
+    /**
+     * Show a single navbar item.
+     */
     public function show(NavbarItem $navbarItem)
     {
         try {
             return view('admin.navbar.show', compact('navbarItem'));
         } catch (\Exception $e) {
             Log::error('NavbarItemController@show - Error: ' . $e->getMessage());
+
             return redirect()->route('admin.navbar-items.index')->with('toast', [
                 'type' => 'error',
                 'title' => 'Error',
@@ -103,15 +123,20 @@ class NavbarItemController extends Controller
         }
     }
 
+    /**
+     * Show the form for editing a navbar item.
+     */
     public function edit(NavbarItem $navbarItem)
     {
         try {
             $parents = NavbarItem::where('is_dropdown', true)
                 ->where('id', '!=', $navbarItem->id)
                 ->get();
+
             return view('admin.navbar.edit', compact('navbarItem', 'parents'));
         } catch (\Exception $e) {
             Log::error('NavbarItemController@edit - Error: ' . $e->getMessage());
+
             return redirect()->route('admin.navbar-items.index')->with('toast', [
                 'type' => 'error',
                 'title' => 'Error',
@@ -120,19 +145,22 @@ class NavbarItemController extends Controller
         }
     }
 
+    /**
+     * Update a navbar item in storage.
+     */
     public function update(Request $request, NavbarItem $navbarItem)
     {
         try {
             $validated = $this->validateRequest($request, $navbarItem);
 
+            // Check parent dropdown constraint
             if (!empty($validated['parent_id'])) {
                 $parent = NavbarItem::find($validated['parent_id']);
                 if (!$parent || !$parent->is_dropdown) {
                     return redirect()->back()->withInput()->with('toast', [
                         'type' => 'error',
                         'title' => 'Validation Error',
-                        'message' => 'Selected parent must be a dropdown item.',
-                        'data' => $request->all()
+                        'message' => 'Selected parent must be a dropdown item.'
                     ]);
                 }
             }
@@ -156,24 +184,29 @@ class NavbarItemController extends Controller
                 ->with('toast', [
                     'type' => 'error',
                     'title' => 'Validation Error',
-                    'message' => 'Validation failed: ' . $e->validator->errors()->first(),
-                    'data' => $request->all()
+                    'message' => 'Validation failed: ' . $e->validator->errors()->first()
                 ]);
         } catch (\Exception $e) {
-            Log::error('NavbarItemController@update - Error: ' . $e->getMessage(), ['request' => $request->all()]);
-            return redirect()->back()->withInput()->with('toast', [
-                'type' => 'error',
-                'title' => 'Error',
-                'message' => 'Failed to update navbar item: ' . $e->getMessage(),
-                'data' => $request->all()
-            ]);
+            Log::error('NavbarItemController@update - Error: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->withInput()
+                ->with('toast', [
+                    'type' => 'error',
+                    'title' => 'Error',
+                    'message' => 'Failed to update navbar item.'
+                ]);
         }
     }
 
+    /**
+     * Delete a navbar item.
+     */
     public function destroy(NavbarItem $navbarItem)
     {
         try {
             $navbarItem->delete();
+
             return redirect()->route('admin.navbar-items.index')->with('toast', [
                 'type' => 'success',
                 'title' => 'Success',
@@ -181,6 +214,7 @@ class NavbarItemController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error('NavbarItemController@destroy - Error: ' . $e->getMessage());
+
             return redirect()->route('admin.navbar-items.index')->with('toast', [
                 'type' => 'error',
                 'title' => 'Error',
@@ -189,6 +223,9 @@ class NavbarItemController extends Controller
         }
     }
 
+    /**
+     * Update the order of navbar items.
+     */
     public function updateOrder(Request $request)
     {
         try {
@@ -206,6 +243,7 @@ class NavbarItemController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error('NavbarItemController@updateOrder - Error: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'toast' => [
@@ -217,6 +255,9 @@ class NavbarItemController extends Controller
         }
     }
 
+    /**
+     * Validate request data.
+     */
     protected function validateRequest(Request $request, $navbarItem = null)
     {
         return $request->validate([
@@ -239,10 +280,14 @@ class NavbarItemController extends Controller
             'is_active' => 'required|boolean',
             'route' => 'nullable|string|max:255',
             'url' => 'nullable|string|max:255',
-            'icon' => 'nullable|string|max:255'
+            'icon' => 'nullable|string|max:255',
+            'is_footer' => 'required|boolean', // <-- added new column
         ]);
     }
 
+    /**
+     * Process defaults before creating/updating.
+     */
     protected function processDefaults(array $validated, Request $request, $navbarItem = null)
     {
         if (!$navbarItem || $request->title !== $navbarItem->title) {
@@ -254,10 +299,14 @@ class NavbarItemController extends Controller
         $validated['order'] = $validated['order'] ?? ($navbarItem ? $navbarItem->order : 0);
         $validated['route'] = $validated['route'] ?? ($navbarItem ? $navbarItem->route : null);
         $validated['url'] = $validated['url'] ?? ($navbarItem ? $navbarItem->url : '#');
+        $validated['is_footer'] = (bool)($validated['is_footer'] ?? 0); // <-- new column
 
         return $validated;
     }
 
+    /**
+     * Generate a unique slug.
+     */
     protected function generateUniqueSlug($title)
     {
         $slug = Str::slug($title);
@@ -271,6 +320,9 @@ class NavbarItemController extends Controller
         return $slug;
     }
 
+    /**
+     * Create or update a page associated with the navbar item.
+     */
     protected function createOrUpdatePage(NavbarItem $navbarItem)
     {
         Page::updateOrCreate(

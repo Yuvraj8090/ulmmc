@@ -320,7 +320,23 @@ namespace App\Models {
     /**
      * App\Models\MediaFile
      *
+     * @property \Illuminate\Support\Carbon|null $updated_at
+     * @property \Illuminate\Support\Carbon|null $created_at
+     * @property mixed $size
+     * @property string $mime_type
+     * @property string $file_path
+     * @property string $file_name
+     * @property string $name
+     * @property int $id
      * @property-read mixed $url
+     * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile whereId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile whereName($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile whereFileName($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile whereFilePath($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile whereMimeType($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile whereSize($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile whereCreatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<MediaFile>|MediaFile query()
@@ -626,6 +642,7 @@ namespace App\Models {
      *
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
+     * @property bool $is_footer
      * @property string|null $icon
      * @property string|null $url
      * @property string|null $route
@@ -652,6 +669,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<NavbarItem>|NavbarItem whereRoute($value)
      * @method static \Illuminate\Database\Eloquent\Builder<NavbarItem>|NavbarItem whereUrl($value)
      * @method static \Illuminate\Database\Eloquent\Builder<NavbarItem>|NavbarItem whereIcon($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<NavbarItem>|NavbarItem whereIsFooter($value)
      * @method static \Illuminate\Database\Eloquent\Builder<NavbarItem>|NavbarItem whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<NavbarItem>|NavbarItem whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<NavbarItem>|NavbarItem newModelQuery()
@@ -2568,6 +2586,7 @@ namespace App\Models {
     /**
      * App\Models\User
      *
+     * @property \Illuminate\Support\Carbon|null $last_service_date
      * @property mixed $role_id
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
@@ -2602,6 +2621,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereRoleId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereLastServiceDate($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User query()

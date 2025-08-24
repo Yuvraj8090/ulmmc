@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\TenderController as AdminTenderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NavbarItemController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\NewsController;
 
@@ -27,7 +28,12 @@ Route::get('/{lang}/{slug}', [PageController::class, 'showLocalizedPage'])
     ->where('lang', 'en|hi')
     ->name('welcome.localized');
     Route::get('/', [PageController::class, 'showWelcomePage'])->name('welcome.default');
-
+Route::get('/admin', function () {
+    if (Auth::check()) {
+        return redirect()->route('dashboard'); // Adjust this route name as needed
+    }
+    return redirect()->route('login'); // Adjust this route name as needed
+});
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -41,9 +47,8 @@ Route::middleware([
     ->name('admin.clear.cache');
     
     // Dashboard route
-    Route::get('/admin/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+   Route::get('/admin/dashboard', [AnalyticsController::class, 'index'])->name('dashboard');
+
     
     // Admin routes group
     Route::prefix('admin')->name('admin.')->group(function () {
@@ -55,6 +60,7 @@ Route::middleware([
             Route::resource('tenders', AdminTenderController::class);
     Route::get('tenders/{tender}/download', [AdminTenderController::class, 'download'])
         ->name('tenders.download');
+         
 
          Route::resource('settings', \App\Http\Controllers\Admin\SettingController::class);
         Route::get('/news', [NewsController::class, 'listNews'])->name('news.list');

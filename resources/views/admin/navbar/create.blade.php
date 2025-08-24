@@ -26,7 +26,7 @@
                             <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                 <span class="text-indigo-600 dark:text-indigo-400">*</span> Title
                             </label>
-                            <input type="text" name="title" id="title" required
+                            <input type="text" name="title" id="title" value="{{ old('title') }}" required
                                 class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-150"
                                 placeholder="Home">
                         </div>
@@ -37,7 +37,7 @@
                                 <span class="text-indigo-600 dark:text-indigo-400">*</span> Slug
                             </label>
                             <div class="relative">
-                                <input type="text" name="slug" id="slug" required
+                                <input type="text" name="slug" id="slug" value="{{ old('slug') }}" required
                                     class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-150"
                                     placeholder="home">
                                 <button type="button" onclick="generateSlug()"
@@ -56,77 +56,66 @@
                                 class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-150">
                                 <option value="">None (Top Level)</option>
                                 @foreach($parents as $parent)
-                                    <option value="{{ $parent->id }}">{{ $parent->title }}</option>
+                                    <option value="{{ $parent->id }}" {{ old('parent_id') == $parent->id ? 'selected' : '' }}>
+                                        {{ $parent->title }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
 
                         <!-- Is Dropdown -->
-                        <div class="space-y-2">
-                            <div class="flex items-center">
-                                <input type="hidden" name="is_dropdown" value="0">
-                                <input type="checkbox" name="is_dropdown" id="is_dropdown" value="1"
-                                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded transition duration-150">
-                                <label for="is_dropdown" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                                    Is Dropdown
-                                </label>
-                            </div>
+                        <div class="space-y-2 flex items-center">
+                            <input type="hidden" name="is_dropdown" value="0">
+                            <input type="checkbox" name="is_dropdown" id="is_dropdown" value="1" {{ old('is_dropdown') ? 'checked' : '' }}
+                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded transition duration-150">
+                            <label for="is_dropdown" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Is Dropdown</label>
+                        </div>
+
+                        <!-- Is Footer -->
+                        <div class="space-y-2 flex items-center">
+                            <input type="hidden" name="is_footer" value="0">
+                            <input type="checkbox" name="is_footer" id="is_footer" value="1" {{ old('is_footer') ? 'checked' : '' }}
+                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded transition duration-150">
+                            <label for="is_footer" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Show in Footer</label>
                         </div>
 
                         <!-- Order -->
                         <div class="space-y-2">
-                            <label for="order" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                Order
-                            </label>
-                            <input type="number" name="order" id="order" value="0"
+                            <label for="order" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order</label>
+                            <input type="number" name="order" id="order" value="{{ old('order', 0) }}"
                                 class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-150">
                         </div>
 
                         <!-- Is Active -->
-                        <div class="space-y-2">
-                            <div class="flex items-center">
-                                <input type="hidden" name="is_active" value="0">
-                                <input type="checkbox" name="is_active" id="is_active" value="1" checked
-                                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded transition duration-150">
-                                <label for="is_active" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                                    Is Active
-                                </label>
-                            </div>
+                        <div class="space-y-2 flex items-center">
+                            <input type="hidden" name="is_active" value="0">
+                            <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', 1) ? 'checked' : '' }}
+                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded transition duration-150">
+                            <label for="is_active" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Is Active</label>
                         </div>
 
                         <!-- Route Name -->
                         <div class="space-y-2">
-                            <label for="route" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                Route Name
-                            </label>
-                            <input type="text" name="route" id="route"
+                            <label for="route" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Route Name</label>
+                            <input type="text" name="route" id="route" value="{{ old('route') }}"
                                 class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-150"
                                 placeholder="home.index">
                         </div>
 
                         <!-- Custom URL -->
                         <div class="space-y-2">
-                            <label for="url" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                Custom URL
-                            </label>
-                            <input type="text" name="url" id="url"
+                            <label for="url" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Custom URL</label>
+                            <input type="text" name="url" id="url" value="{{ old('url') }}"
                                 class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-150"
                                 placeholder="/home">
                         </div>
 
                         <!-- Icon Class -->
                         <div class="space-y-2">
-                            <label for="icon" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                Icon Class
-                            </label>
-                            <div class="relative">
-                                <input type="text" name="icon" id="icon"
-                                    class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-150"
-                                    placeholder="fas fa-home">
-                                <div class="absolute right-2 top-2 text-gray-400">
-                                    <i class="fas fa-icons"></i>
-                                </div>
-                            </div>
+                            <label for="icon" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Icon Class</label>
+                            <input type="text" name="icon" id="icon" value="{{ old('icon') }}"
+                                class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white transition duration-150"
+                                placeholder="fas fa-home">
                         </div>
                     </div>
 
@@ -147,14 +136,13 @@
             const title = document.getElementById('title').value;
             if (title) {
                 const slug = title.toLowerCase()
-                    .replace(/[^\w\s-]/g, '') // Remove special chars
-                    .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-                    .replace(/^-+|-+$/g, ''); // Trim hyphens from start/end
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/[\s_-]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
                 document.getElementById('slug').value = slug;
             }
         }
 
-        // Auto-generate slug when title changes
         document.getElementById('title').addEventListener('input', function() {
             if (!document.getElementById('slug').value) {
                 generateSlug();
